@@ -10,7 +10,10 @@ private:
     struct block_info {
         void* ptr;
         std::size_t size;
+        std::size_t alignment;
         bool used;
+
+        block_info(void* p, std::size_t sz, std::size_t align, bool u) : ptr(p), size(sz), alignment(align), used(u) {}
     };
     
     static constexpr std::size_t CUBE_SIZE = 64;
@@ -27,7 +30,7 @@ public:
     ~cube_memory_resource() {
         for (const auto& block : blocks) {
             if (block.ptr) {
-                upstream->deallocate(block.ptr, block.size, alignof(std::max_align_t));
+                upstream->deallocate(block.ptr, block.size, block.alignment);
             }
         }
         blocks.clear();
@@ -61,7 +64,7 @@ protected:
         }
         
         void* ptr = upstream->allocate(actual_size, alignment);
-        blocks.push_back({ptr, actual_size, true});
+        blocks.push_back(block_info(ptr, actual_size, alignment, true));
         
         return ptr;
     }
