@@ -157,26 +157,6 @@ public:
         ++m_size;
     }
     
-    template<typename... Args>
-    void emplace(Args&&... args) {
-        Node* new_node = std::allocator_traits<decltype(m_allocator)>::allocate(m_allocator, 1);
-        try {
-            std::allocator_traits<decltype(m_allocator)>::construct(
-                m_allocator, new_node, std::forward<Args>(args)...);
-        } catch (...) {
-            std::allocator_traits<decltype(m_allocator)>::deallocate(m_allocator, new_node, 1);
-            throw;
-        }
-        
-        if (m_tail) {
-            m_tail->next = new_node;
-        } else {
-            m_head = new_node;
-        }
-        m_tail = new_node;
-        ++m_size;
-    }
-    
     void pop() {
         if (empty()) {
             throw std::out_of_range("pop from empty queue");

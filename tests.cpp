@@ -36,31 +36,22 @@ TEST(PMRQueueTest, BasicIntOperations) {
 
 TEST(PMRQueueTest, ComplexTypeOperations) {
     cube_memory_resource mr;
-    
-    struct Person {
-        std::string name;
-        int age;
-        Person(std::string n = "", int a = 0) : name(std::move(n)), age(a) {}
-        bool operator==(const Person& other) const {
-            return name == other.name && age == other.age;
-        }
-    };
 
-    pmr_queue<Person> queue(&mr);
+    pmr_queue<ComplexType> queue(&mr);
 
-    queue.push(Person("Alice", 30));
-    queue.push(Person("Bob", 25));
-    queue.emplace("Charlie", 35);
+    queue.push(ComplexType(1, "First", 1.1, "Description 1"));
+    queue.push(ComplexType(2, "Second", 2.2, "Description 2"));
+    queue.push(ComplexType(3, "Third", 3.3, "Description 3"));
 
     EXPECT_EQ(queue.size(), 3);
-    EXPECT_EQ(queue.front().name, "Alice");
-    EXPECT_EQ(queue.front().age, 30);
-    EXPECT_EQ(queue.back().name, "Charlie");
-    EXPECT_EQ(queue.back().age, 35);
+    EXPECT_EQ(queue.front().name, "First");
+    EXPECT_EQ(queue.front().value, 1.1);
+    EXPECT_EQ(queue.back().name, "Third");
+    EXPECT_EQ(queue.back().value, 3.3);
 
     queue.pop();
-    EXPECT_EQ(queue.front().name, "Bob");
-    EXPECT_EQ(queue.front().age, 25);
+    EXPECT_EQ(queue.front().name, "Second");
+    EXPECT_EQ(queue.front().value, 2.2);
 }
 
 TEST(PMRQueueTest, IteratorTest) {

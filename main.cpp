@@ -5,11 +5,8 @@
 
 void demonstrate_with_int() {
     std::cout << "=== Демонстрация работы очереди с типом int ===" << std::endl;
-    
     cube_memory_resource cube_mr;
-    
     pmr_queue<int> int_queue(&cube_mr);
-    
     for (int i = 1; i <= 10; ++i) {
         int_queue.push(i);
     }
@@ -40,16 +37,13 @@ void demonstrate_with_int() {
 
 void demonstrate_with_complex_type() {
     std::cout << "=== Демонстрация работы очереди с ComplexType ===" << std::endl;
-    
     cube_memory_resource cube_mr;
-    
     pmr_queue<ComplexType> complex_queue(&cube_mr);
-    
     complex_queue.push(ComplexType(1, "First", 1.1, "Description 1"));
     
-    complex_queue.emplace(2, "Second", 2.2, "Description 2");
-    complex_queue.emplace(3, "Third", 3.3, "Description 3");
-    complex_queue.emplace(4, "Fourth", 4.4, "Description 4");
+    complex_queue.push(ComplexType(2, "Second", 2.2, "Description 2"));
+    complex_queue.push(ComplexType(3, "Third", 3.3, "Description 3"));
+    complex_queue.push(ComplexType(4, "Fourth", 4.4, "Description 4"));
     
     std::cout << "Размер очереди ComplexType: " << complex_queue.size() << std::endl;
     
