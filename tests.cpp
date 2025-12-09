@@ -172,13 +172,14 @@ TEST(PMRQueueTest, ExceptionSafety) {
     cube_memory_resource mr;
     pmr_queue<int> queue(&mr);
     
-    // Basic exception safety test
+    // Basic exception safety test по
     EXPECT_NO_THROW({
         queue.push(1);
         queue.push(2);
         queue.pop();
         queue.push(3);
     });
+    
 
     // Test front/back on empty queue
     pmr_queue<int> empty_queue(&mr);
@@ -186,3 +187,5 @@ TEST(PMRQueueTest, ExceptionSafety) {
     EXPECT_THROW(empty_queue.back(), std::out_of_range);
     EXPECT_THROW(empty_queue.pop(), std::out_of_range);
 }
+
+

@@ -3,6 +3,7 @@
 #include "complex_type.hpp"
 #include <iostream>
 
+
 void demonstrate_with_int() {
     std::cout << "=== Демонстрация работы очереди с типом int ===" << std::endl;
     cube_memory_resource cube_mr;
